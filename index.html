@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f6f1">
+  <title>PlanSurf | Personal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lucide-static@0.468.0/font/lucide.css">
+  <style>
+    :root{--page:#f5f6f1;--paper:#fff;--ink:#202a27;--muted:#77817c;--line:#e5e9e3;--green:#187763;--green-dark:#115747;--green-pale:#e5f2ec;--coral:#cc694f;--coral-pale:#fff0e9;--gold:#b18238;--gold-pale:#f8f0dc;--blue:#587f9a;--blue-pale:#eaf2f7;--shadow:0 10px 30px rgba(35,55,45,.055);--radius:9px}
+    *{box-sizing:border-box}body{margin:0;background:var(--page);color:var(--ink);font:14px 'DM Sans',sans-serif;min-height:100vh}button,input,select,textarea{font:inherit}button{color:inherit;cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #18776340;outline-offset:2px}.shell{min-height:100vh;display:grid;grid-template-columns:252px minmax(0,1fr)}
+    .sidebar{background:#fbfcf8;border-right:1px solid var(--line);padding:25px 17px 20px;display:flex;flex-direction:column;gap:24px}.brand{display:flex;align-items:center;gap:11px;padding:1px 8px 6px}.brand-mark{width:36px;height:36px;border-radius:11px;background:var(--green);color:white;display:grid;place-items:center}.brand-mark i{font-size:20px}.brand-name{font-weight:700;font-size:15px;letter-spacing:0}.brand-name small{display:block;font-size:10px;color:var(--muted);font-weight:600;margin-top:2px}.side-label{font-size:10px;letter-spacing:0;text-transform:uppercase;font-weight:700;color:#929c95;padding:0 10px 8px}.nav-list{display:grid;gap:3px}.nav-button{width:100%;border:0;background:transparent;padding:10px 11px;display:flex;align-items:center;gap:11px;text-align:left;color:#65716b;border-radius:7px;font-size:13px}.nav-button i{font-size:17px;width:18px;text-align:center}.nav-button:hover{background:#f0f4ef;color:var(--ink)}.nav-button.active{background:var(--green-pale);color:var(--green-dark);font-weight:700}.nav-count{margin-left:auto;font-size:11px;color:var(--muted)}.side-section{display:grid;gap:4px}.category-row{display:flex;align-items:center;gap:10px;padding:8px 11px;color:#65716b;font-size:12px}.category-dot{width:8px;height:8px;border-radius:50%;background:var(--green)}.category-row:nth-child(3) .category-dot{background:var(--coral)}.category-row:nth-child(4) .category-dot{background:var(--gold)}.category-row:nth-child(5) .category-dot{background:var(--blue)}.category-row:nth-child(6) .category-dot{background:#9a79a8}.category-row:nth-child(7) .category-dot{background:#75885c}.side-bottom{margin-top:auto;border-top:1px solid var(--line);padding-top:15px}.sync-mini{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:11px;padding:0 10px 12px}.sync-light{width:7px;height:7px;border-radius:50%;background:#a8b2ac}.sync-light.on{background:#319a71}.side-actions{display:flex;gap:6px;padding:0 4px}.side-actions button{background:transparent;border:1px solid var(--line);border-radius:6px;padding:8px 10px;color:#65716b;font-size:11px;flex:1;display:flex;justify-content:center;gap:6px;align-items:center}.side-actions button:hover{border-color:#b7c7bc;background:white}
+    .main{min-width:0;max-width:1100px;width:100%;margin:0 auto;padding:32px clamp(20px,5vw,64px) 70px}.topline{display:flex;align-items:center;justify-content:space-between;margin-bottom:29px}.date-label{font-size:12px;color:var(--muted);font-weight:600}.top-actions{display:flex;align-items:center;gap:9px}.icon-button{width:36px;height:36px;border:1px solid var(--line);background:var(--paper);border-radius:7px;display:grid;place-items:center;color:#65716b}.icon-button i{font-size:17px}.icon-button:hover{color:var(--green);border-color:#aac7b8}.avatar{width:35px;height:35px;background:var(--gold-pale);color:#765322;font-size:12px;font-weight:700;border-radius:50%;display:grid;place-items:center;margin-left:4px}.greeting{font:600 31px/1.18 Fraunces,serif;letter-spacing:0;margin:0}.intro{color:var(--muted);font-size:13px;margin:8px 0 25px}.overview{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px;margin-bottom:25px}.metric{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:14px 16px;min-height:84px}.metric-top{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:11px}.metric-top i{font-size:16px;color:var(--green)}.metric strong{display:block;font:700 23px Fraunces,serif;margin-top:6px}.metric.overdue .metric-top i,.metric.overdue strong{color:var(--coral)}
+    .task-head{display:flex;align-items:center;justify-content:space-between;margin:5px 0 14px;gap:12px}.task-head h2{font:600 20px Fraunces,serif;margin:0}.task-head .subcount{color:var(--muted);font-size:11px;margin-left:8px;font-family:'DM Sans',sans-serif;font-weight:500}.new-button{border:0;border-radius:6px;background:var(--green);color:#fff;font-weight:700;padding:10px 14px;display:flex;align-items:center;gap:7px;font-size:12px;white-space:nowrap}.new-button:hover{background:var(--green-dark)}.new-button i{font-size:16px}.tools-row{display:flex;align-items:center;gap:9px;margin-bottom:16px}.search{position:relative;flex:1;max-width:340px}.search i{position:absolute;top:10px;left:11px;color:#929c95;font-size:15px}.search input{width:100%;height:36px;border:1px solid var(--line);border-radius:6px;background:var(--paper);padding:0 11px 0 34px;font-size:12px;color:var(--ink)}.select-filter{height:36px;border:1px solid var(--line);border-radius:6px;background:var(--paper);color:#65716b;padding:0 10px;font-size:11px}.task-list{display:grid;gap:8px}.task{display:flex;align-items:flex-start;gap:12px;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:14px 15px;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;animation:rise .24s ease both}.task:hover{border-color:#cad8cd;box-shadow:var(--shadow);transform:translateY(-1px)}@keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}.task-check{width:19px;height:19px;flex:none;margin-top:1px;border:1.5px solid #bfcac2;background:white;border-radius:50%;display:grid;place-items:center;color:white;padding:0}.task-check i{font-size:12px;opacity:0}.task-check:hover{border-color:var(--green)}.task.is-done .task-check{background:var(--green);border-color:var(--green)}.task.is-done .task-check i{opacity:1}.task-content{min-width:0;flex:1}.task-title{font-weight:600;font-size:13px;line-height:1.45;overflow-wrap:anywhere}.task.is-done .task-title{text-decoration:line-through;color:#949e97}.task-details{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:7px}.tag{font-size:10px;border-radius:4px;padding:4px 7px;color:#65716b;background:#f2f4f0}.tag.category-family{background:var(--green-pale);color:var(--green-dark)}.tag.category-errands{background:var(--gold-pale);color:#856323}.tag.category-shopping{background:var(--coral-pale);color:#a55039}.tag.category-growth{background:var(--blue-pale);color:#4d7189}.tag.category-home{background:#f1edf5;color:#7d638b}.tag.category-wellbeing{background:#edf2e7;color:#687c50}.task-due{font-size:10px;color:var(--muted);display:inline-flex;align-items:center;gap:4px}.task-due.late{color:var(--coral);font-weight:700}.task-note{font-size:11px;color:var(--muted);margin-top:6px;white-space:pre-wrap;overflow-wrap:anywhere}.task-actions{display:flex;gap:2px;opacity:.2;transition:opacity .15s}.task:hover .task-actions,.task-actions:focus-within{opacity:1}.task-actions button{border:0;background:transparent;color:#7c8981;width:28px;height:28px;border-radius:5px;display:grid;place-items:center}.task-actions button:hover{background:#f0f4ef;color:var(--green)}.task-actions .delete:hover{color:#b84c3b;background:var(--coral-pale)}.empty{border:1px dashed #d4ddd4;border-radius:8px;padding:44px 15px;text-align:center;color:var(--muted);background:rgba(255,255,255,.45)}.empty-icon{width:42px;height:42px;border-radius:50%;background:var(--green-pale);display:grid;place-items:center;color:var(--green);margin:0 auto 12px}.empty-icon i{font-size:20px}.empty strong{display:block;color:var(--ink);font-size:13px}.empty p{margin:5px 0 0;font-size:11px}
+    .overlay{position:fixed;inset:0;background:#1e302c66;z-index:5;display:flex;align-items:center;justify-content:center;padding:16px;animation:fade .15s ease}@keyframes fade{from{opacity:0}to{opacity:1}}.dialog{width:min(470px,100%);max-height:92vh;overflow:auto;background:var(--paper);border-radius:9px;padding:22px;box-shadow:0 24px 70px #182d2660}.dialog-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.dialog-head h3{font:600 21px Fraunces,serif;margin:0}.close{border:0;background:transparent;color:var(--muted);width:30px;height:30px;border-radius:5px;display:grid;place-items:center}.close:hover{background:#f0f4ef}.field{margin-bottom:13px}.field label{display:block;font-size:10px;text-transform:uppercase;font-weight:700;color:#66736c;margin-bottom:6px}.field input,.field select,.field textarea{width:100%;border:1px solid var(--line);border-radius:6px;background:#fcfdfa;color:var(--ink);padding:10px 11px;font-size:12px}.field textarea{min-height:78px;resize:vertical}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.dialog-actions{display:flex;justify-content:flex-end;gap:8px;padding-top:8px}.btn{border:1px solid var(--line);border-radius:6px;background:white;padding:9px 13px;color:#5d6a62;font-size:11px;font-weight:700}.btn.primary{border-color:var(--green);background:var(--green);color:white}.btn.primary:hover{background:var(--green-dark)}.btn:disabled{opacity:.55;cursor:wait}.message{font-size:11px;color:var(--muted);margin-top:11px;min-height:16px}.sync-hint{font-size:11px;line-height:1.5;background:#f3f6f1;padding:11px;border-radius:6px;color:#65716b;margin-bottom:15px}.login-field{margin-top:13px}.section-rule{height:1px;background:var(--line);margin:17px 0}
+    @media(max-width:760px){.shell{grid-template-columns:minmax(0,1fr)}.sidebar{min-width:0;padding:12px 14px;border-right:0;border-bottom:1px solid var(--line);gap:9px}.brand{padding:0 3px}.brand-mark{width:32px;height:32px}.side-section{display:none}.sidebar>.side-label{display:none}.nav-list{display:flex;min-width:0;overflow-x:auto;gap:5px}.nav-button{width:auto;white-space:nowrap;padding:8px 10px;font-size:11px;gap:7px;flex:none}.nav-button i{font-size:15px}.side-bottom{display:none}.main{padding:22px 16px 45px}.topline{margin-bottom:23px}.greeting{font-size:27px}.overview{gap:7px}.metric{padding:11px 10px;min-height:76px}.metric-top{font-size:10px}.metric-top i{display:none}.metric strong{font-size:20px}.task-head h2{font-size:18px}.task-head .subcount{display:block;margin:3px 0 0;font-size:10px}.task-head{align-items:flex-end}.tools-row{flex-wrap:wrap}.search{max-width:none;flex-basis:100%}.select-filter{flex:1;min-width:0}.task{padding:12px}.task-actions{opacity:1}.date-label{font-size:11px}}
+    @media(max-width:390px){.overview{grid-template-columns:repeat(3,minmax(0,1fr))}.metric{padding:10px 8px}.metric-top{font-size:9px}.metric strong{font-size:18px}.avatar{display:none}.greeting{font-size:25px}.form-grid{grid-template-columns:1fr}.new-button{padding:9px 10px}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  <script>
+    const CATEGORIES = {
+      family: 'Family', errands: 'Errands', shopping: 'Shopping', growth: 'Skill building',
+      home: 'Home', wellbeing: 'Wellbeing'
+    };
+    const CATEGORY_ICONS = {family:'users-round',errands:'route',shopping:'shopping-bag',growth:'book-open',home:'house',wellbeing:'heart'};
+    const STORAGE_KEY = 'plansurf-personal-todos-v1';
+    const API_BASE = 'https://plansurf-service.onrender.com';
+    let token = '';
+    const state = {
+      tasks: loadTasks(), view: 'today', category: 'all', query: '', modal: null,
+      syncing: false, syncMessage: 'Local changes are saved in this browser.', signedIn: false
+    };
+    function loadTasks() {
+      try { const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY)); return Array.isArray(parsed) ? parsed : []; }
+      catch { return []; }
+    }
+    function persist() {
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state.tasks)); } catch {}
+      render();
+    }
+    function todayKey() { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+    function uid() { return Math.random().toString(36).slice(2,9) + Date.now().toString(36); }
+    function isOverdue(task) { return task.dueDate && task.dueDate < todayKey() && !task.completed; }
+    function dateText(key) {
+      if (!key) return '';
+      const date = new Date(`${key}T12:00:00`);
+      if (key === todayKey()) return 'Today';
+      const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate()+1);
+      if (key === `${tomorrow.getFullYear()}-${String(tomorrow.getMonth()+1).padStart(2,'0')}-${String(tomorrow.getDate()).padStart(2,'0')}`) return 'Tomorrow';
+      return date.toLocaleDateString(undefined,{month:'short',day:'numeric'});
+    }
+    function greeting() {
+      const hour = new Date().getHours();
+      return hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+    }
+    function escapeHTML(value='') {
+      return String(value).replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+    }
+    function visibleTasks() {
+      let tasks = state.tasks.filter(task => state.category === 'all' || task.category === state.category);
+      const today = todayKey();
+      if (state.view === 'today') tasks = tasks.filter(task => task.dueDate === today || isOverdue(task));
+      if (state.view === 'upcoming') tasks = tasks.filter(task => !task.completed && task.dueDate > today);
+      if (state.view === 'unscheduled') tasks = tasks.filter(task => !task.completed && !task.dueDate);
+      if (state.view === 'completed') tasks = tasks.filter(task => task.completed);
+      if (state.query.trim()) {
+        const query = state.query.toLowerCase();
+        tasks = tasks.filter(task => `${task.title} ${task.notes || ''} ${CATEGORIES[task.category] || ''}`.toLowerCase().includes(query));
+      }
+      if (state.priority && state.priority !== 'all') tasks=tasks.filter(task=>task.priority===state.priority);
+      return tasks.sort((a,b) => (a.completed-b.completed) || ((a.dueDate || '9999').localeCompare(b.dueDate || '9999')) || (({high:0,medium:1,low:2}[a.priority]??1) - ({high:0,medium:1,low:2}[b.priority]??1)) || (b.createdAt-a.createdAt));
+    }
+    function taskMarkup(task) {
+      const due = task.dueDate ? `<span class="task-due ${isOverdue(task)?'late':''}"><i class="icon icon-calendar-days"></i>${isOverdue(task)?'Overdue · ':''}${dateText(task.dueDate)}</span>` : '';
+      const priority = task.priority === 'high' ? '<span class="tag" style="background:var(--coral-pale);color:#a55039">High priority</span>' : task.priority === 'low' ? '<span class="tag">Low priority</span>' : '';
+      return `<article class="task ${task.completed?'is-done':''}" data-task="${escapeHTML(task.id)}">
+        <button class="task-check" data-action="toggle" aria-label="${task.completed?'Mark incomplete':'Complete task'}"><i class="icon icon-check"></i></button>
+        <div class="task-content"><div class="task-title">${escapeHTML(task.title)}</div><div class="task-details"><span class="tag category-${escapeHTML(task.category)}">${escapeHTML(CATEGORIES[task.category] || 'Personal')}</span>${priority}${due}</div>${task.notes?`<div class="task-note">${escapeHTML(task.notes)}</div>`:''}</div>
+        <div class="task-actions"><button data-action="edit" title="Edit task" aria-label="Edit task"><i class="icon icon-pencil"></i></button><button class="delete" data-action="delete" title="Delete task" aria-label="Delete task"><i class="icon icon-trash-2"></i></button></div>
+      </article>`;
+    }
+    function render() {
+      const today = todayKey();
+      const open = state.tasks.filter(task => !task.completed);
+      const todayTasks = open.filter(task => task.dueDate === today || isOverdue(task));
+      const overdue = open.filter(isOverdue).length;
+      const completedToday = state.tasks.filter(task => task.completed && task.completedAt && new Date(task.completedAt).toDateString() === new Date().toDateString()).length;
+      const items = visibleTasks();
+      const nav = [['today','sun','Today',todayTasks.length],['upcoming','calendar-days','Upcoming',open.filter(t=>t.dueDate>today).length],['unscheduled','inbox','No date',open.filter(t=>!t.dueDate).length],['completed','circle-check','Completed',state.tasks.filter(t=>t.completed).length]];
+      const currentTitle = ({today:'Today',upcoming:'Upcoming',unscheduled:'No date',completed:'Completed'})[state.view] || 'Today';
+      document.getElementById('app').innerHTML = `<div class="shell">
+        <aside class="sidebar">
+          <div class="brand"><div class="brand-mark"><i class="icon icon-check-check"></i></div><div class="brand-name">PlanSurf<small>PERSONAL</small></div></div>
+          <div class="side-label">Your space</div>
+          <nav class="nav-list">${nav.map(([id,icon,label,count])=>`<button class="nav-button ${state.view===id?'active':''}" data-view="${id}"><i class="icon icon-${icon}"></i><span>${label}</span><span class="nav-count">${count||''}</span></button>`).join('')}</nav>
+          <div class="side-section"><div class="side-label">Categories</div>${Object.entries(CATEGORIES).map(([key,label])=>`<div class="category-row"><span class="category-dot"></span>${label}</div>`).join('')}</div>
+          <div class="side-bottom"><div class="sync-mini"><span class="sync-light ${state.signedIn?'on':''}"></span><span>${escapeHTML(state.syncMessage)}</span></div><div class="side-actions"><button data-action="backup"><i class="icon icon-download"></i> Export</button><button data-action="sync"><i class="icon icon-cloud"></i> Cloud sync</button></div></div>
+        </aside>
+        <main class="main">
+          <div class="topline"><div class="date-label">${new Date().toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'})}</div><div class="top-actions"><button class="icon-button" data-action="sync" title="Cloud sync" aria-label="Cloud sync"><i class="icon icon-cloud"></i></button><div class="avatar">${new Date().toLocaleDateString(undefined,{month:'short'}).toUpperCase()}</div></div></div>
+          <h1 class="greeting">${greeting()}, Taha.</h1><p class="intro">A little progress on the things that matter to you.</p>
+          <section class="overview"><div class="metric"><div class="metric-top"><span>To take care of</span><i class="icon icon-list-checks"></i></div><strong>${todayTasks.length}</strong></div><div class="metric ${overdue?'overdue':''}"><div class="metric-top"><span>Past due</span><i class="icon icon-clock-3"></i></div><strong>${overdue}</strong></div><div class="metric"><div class="metric-top"><span>Done today</span><i class="icon icon-circle-check"></i></div><strong>${completedToday}</strong></div></section>
+          <div class="task-head"><h2>${currentTitle}<span class="subcount">${items.length} ${items.length===1?'task':'tasks'}</span></h2><button class="new-button" data-action="new"><i class="icon icon-plus"></i> Add task</button></div>
+          <div class="tools-row"><label class="search"><i class="icon icon-search"></i><input id="search" type="search" placeholder="Find a task..." value="${escapeHTML(state.query)}" aria-label="Search tasks"></label><select class="select-filter" id="category-filter" aria-label="Filter by category"><option value="all">Every category</option>${Object.entries(CATEGORIES).map(([key,label])=>`<option value="${key}" ${state.category===key?'selected':''}>${label}</option>`).join('')}</select><select class="select-filter" id="priority-filter" aria-label="Filter by priority"><option value="all">Any priority</option><option value="high" ${state.priority==='high'?'selected':''}>High priority</option><option value="medium" ${state.priority==='medium'?'selected':''}>Medium priority</option><option value="low" ${state.priority==='low'?'selected':''}>Low priority</option></select></div>
+          <section class="task-list">${items.length?items.map(taskMarkup).join(''):`<div class="empty"><div class="empty-icon"><i class="icon icon-sparkles"></i></div><strong>${state.query?'No matching tasks':state.view==='today'?'Nothing urgent for today':state.view==='upcoming'?'No upcoming plans':state.view==='completed'?'No completed tasks yet':'You have no undated tasks'}</strong><p>${state.query?'Try a different search or category.':'Add a personal task whenever something comes to mind.'}</p></div>`}</section>
+        </main>${state.modal?modalMarkup():''}</div>`;
+      bindEvents();
+    }
+    function modalMarkup() {
+      const modal = state.modal;
+      if (modal.type === 'sync') return `<div class="overlay" data-action="outside"><section class="dialog" role="dialog" aria-modal="true" aria-labelledby="dialog-title"><div class="dialog-head"><h3 id="dialog-title">PlanSurf cloud sync</h3><button class="close" data-action="close" aria-label="Close"><i class="icon icon-x"></i></button></div><div class="sync-hint">Sign in with the password you already use for PlanSurf. Your personal tasks sync alongside existing data; the planner's task and leave records are left intact.</div>${!state.signedIn?`<div class="field login-field"><label for="sync-password">Password</label><input id="sync-password" type="password" autocomplete="current-password" placeholder="Your PlanSurf password"></div>`:''}<div class="message" id="sync-message">${escapeHTML(state.syncMessage)}</div><div class="dialog-actions"><button class="btn" data-action="close">Close</button>${state.signedIn?`<button class="btn" data-action="pull" ${state.syncing?'disabled':''}>Pull tasks</button><button class="btn primary" data-action="push" ${state.syncing?'disabled':''}>Save to cloud</button><button class="btn" data-action="logout">Sign out</button>`:`<button class="btn primary" data-action="login" ${state.syncing?'disabled':''}>${state.syncing?'Signing in...':'Sign in'}</button>`}</div></section></div>`;
+      const task = modal.task || {title:'',category:'family',dueDate:todayKey(),priority:'medium',notes:''};
+      return `<div class="overlay" data-action="outside"><form class="dialog" id="task-form" role="dialog" aria-modal="true" aria-labelledby="dialog-title"><div class="dialog-head"><h3 id="dialog-title">${modal.task?'Edit task':'New personal task'}</h3><button type="button" class="close" data-action="close" aria-label="Close"><i class="icon icon-x"></i></button></div><div class="field"><label for="task-title">What needs doing?</label><input id="task-title" name="title" required maxlength="160" placeholder="e.g. Book the dentist appointment" value="${escapeHTML(task.title)}" autofocus></div><div class="form-grid"><div class="field"><label for="task-category">Category</label><select id="task-category" name="category">${Object.entries(CATEGORIES).map(([key,label])=>`<option value="${key}" ${task.category===key?'selected':''}>${label}</option>`).join('')}</select></div><div class="field"><label for="task-priority">Priority</label><select id="task-priority" name="priority"><option value="high" ${task.priority==='high'?'selected':''}>High</option><option value="medium" ${task.priority==='medium'?'selected':''}>Medium</option><option value="low" ${task.priority==='low'?'selected':''}>Low</option></select></div></div><div class="field"><label for="task-date">Due date</label><input id="task-date" name="dueDate" type="date" value="${escapeHTML(task.dueDate||'')}"></div><div class="field"><label for="task-notes">Notes</label><textarea id="task-notes" name="notes" placeholder="Details, list items, or a helpful reminder">${escapeHTML(task.notes||'')}</textarea></div><div class="dialog-actions"><button type="button" class="btn" data-action="close">Cancel</button><button class="btn primary" type="submit">${modal.task?'Save changes':'Add to my list'}</button></div></form></div>`;
+    }
+    function bindEvents() {
+      document.querySelectorAll('[data-view]').forEach(button => button.addEventListener('click',()=>{state.view=button.dataset.view;state.category='all';render()}));
+      document.querySelectorAll('[data-action]').forEach(button => button.addEventListener('click',event=>{
+        const action=button.dataset.action;
+        if (action==='outside') { if(event.target===button){state.modal=null;render()} return; }
+        const card=button.closest('[data-task]');
+        if (action==='new') { state.modal={type:'task'};render();document.getElementById('task-title')?.focus(); }
+        if (action==='close') { state.modal=null;render(); }
+        if (action==='toggle' && card) { const task=state.tasks.find(item=>item.id===card.dataset.task);task.completed=!task.completed;task.completedAt=task.completed?new Date().toISOString():null;persist(); }
+        if (action==='delete' && card) { const task=state.tasks.find(item=>item.id===card.dataset.task);if(confirm(`Delete “${task.title}”?`)){state.tasks=state.tasks.filter(item=>item.id!==task.id);persist();} }
+        if (action==='edit' && card) { state.modal={type:'task',task:state.tasks.find(item=>item.id===card.dataset.task)};render();document.getElementById('task-title')?.focus(); }
+        if (action==='sync') { state.modal={type:'sync'};render(); }
+        if (action==='backup') exportTasks();
+        if (action==='login') login();
+        if (action==='push') pushTasks();
+        if (action==='pull') pullTasks();
+        if (action==='logout') logout();
+      }));
+      document.getElementById('task-form')?.addEventListener('submit',event=>{
+        event.preventDefault();const data=Object.fromEntries(new FormData(event.currentTarget));
+        if(state.modal.task) Object.assign(state.modal.task,data);
+        else state.tasks.push({...data,id:uid(),completed:false,createdAt:Date.now(),completedAt:null});
+        state.modal=null;persist();
+      });
+      const search=document.getElementById('search');
+      search?.addEventListener('input',()=>{const position=search.selectionStart;state.query=search.value;render();const next=document.getElementById('search');next.focus();next.setSelectionRange(position,position);});
+      document.getElementById('category-filter')?.addEventListener('change',event=>{state.category=event.target.value;render()});
+      document.getElementById('priority-filter')?.addEventListener('change',event=>{state.priority=event.target.value;render()});
+    }
+    function exportTasks() {
+      const data={app:'plansurf-personal-todos',version:1,exportedAt:new Date().toISOString(),tasks:state.tasks};
+      const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));
+      const link=document.createElement('a');link.href=url;link.download=`plansurf-todos-${todayKey()}.json`;link.click();URL.revokeObjectURL(url);
+    }
+    async function apiRequest(path,options={}) {
+      const response=await fetch(`${API_BASE}${path}`,{...options,headers:{'Content-Type':'application/json',...(token?{Authorization:`Bearer ${token}`}:{}) ,...(options.headers||{})},cache:'no-store'});
+      const payload=await response.json().catch(()=>({error:'The service returned an invalid response.'}));
+      if(!response.ok)throw new Error(payload.error||payload.message||`Request failed (${response.status}).`);
+      return payload;
+    }
+    async function login() {
+      const password=document.getElementById('sync-password')?.value;
+      if(!password)return;
+      state.syncing=true;state.syncMessage='Signing in...';render();
+      try{const result=await apiRequest('/api/dailyspark/login',{method:'POST',body:JSON.stringify({password})});if(!result.token)throw new Error('The service did not return a session token.');token=result.token;state.signedIn=true;state.syncMessage='Signed in. Your local tasks are ready to sync.';}
+      catch(error){state.syncMessage=`Sign in failed: ${error.message}`;}
+      finally{state.syncing=false;render();}
+    }
+    function mergeTasks(existing,incoming,preferIncoming=true) {
+      const merged=Array.isArray(existing)?existing.map(task=>({...task})):[];
+      const positions=new Map(merged.map((task,index)=>[task.id,index]));
+      (Array.isArray(incoming)?incoming:[]).forEach(task=>{
+        if(!task||typeof task.id!=='string')return;
+        const index=positions.get(task.id);
+        if(index===undefined){positions.set(task.id,merged.length);merged.push(task)}
+        else if(preferIncoming)merged[index]=task;
+      });
+      return merged;
+    }
+    function validateDocument(data) {
+      return data&&typeof data==='object'&&!Array.isArray(data)&&data.version===5&&data.tasks&&typeof data.tasks==='object'&&!Array.isArray(data.tasks)&&Array.isArray(data.leaveRecords);
+    }
+    async function pushTasks() {
+      if(!token)return;
+      state.syncing=true;state.syncMessage='Combining local and cloud tasks...';render();
+      try{
+        const saved=await apiRequest('/api/dailyspark/data');
+        if(!validateDocument(saved))throw new Error('Saved planner data has an unexpected format. Nothing was changed.');
+        const merged=mergeTasks(saved.personalTodos,state.tasks,true);
+        await apiRequest('/api/dailyspark/data',{method:'PUT',body:JSON.stringify({...saved,personalTodos:merged,personalTodosUpdatedAt:new Date().toISOString()})});
+        state.tasks=merged;try{localStorage.setItem(STORAGE_KEY,JSON.stringify(merged))}catch{}
+        state.syncMessage='Personal tasks saved to PlanSurf cloud.';
+      }catch(error){state.syncMessage=`Cloud save failed: ${error.message}`;if(/unauthorized|invalid or expired token|sign in/i.test(error.message)){token='';state.signedIn=false}}
+      finally{state.syncing=false;render();}
+    }
+    async function pullTasks() {
+      if(!token)return;
+      if(state.tasks.length&&!confirm('Merge cloud tasks into this browser? Matching task IDs will use the cloud version.'))return;
+      state.syncing=true;state.syncMessage='Loading tasks from cloud...';render();
+      try{
+        const saved=await apiRequest('/api/dailyspark/data');
+        if(!validateDocument(saved))throw new Error('Saved planner data has an unexpected format.');
+        state.tasks=mergeTasks(state.tasks,saved.personalTodos,true);
+        try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state.tasks))}catch{}
+        state.syncMessage='Cloud tasks merged into this browser.';
+      }catch(error){state.syncMessage=`Cloud pull failed: ${error.message}`;if(/unauthorized|invalid or expired token|sign in/i.test(error.message)){token='';state.signedIn=false}}
+      finally{state.syncing=false;render();}
+    }
+    async function logout() {
+      try{if(token)await apiRequest('/api/logout',{method:'POST'})}catch{}
+      token='';state.signedIn=false;state.syncMessage='Signed out. Local tasks are still available.';render();
+    }
+    document.addEventListener('keydown',event=>{if(event.key==='Escape'&&state.modal){state.modal=null;render()}if((event.metaKey||event.ctrlKey)&&event.key==='Enter'&&state.modal?.type==='task')document.getElementById('task-form')?.requestSubmit()});
+    render();
+  </script>
+</body>
+</html>
