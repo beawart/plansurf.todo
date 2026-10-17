@@ -31,6 +31,8 @@
     const CATEGORY_ICONS = {family:'users-round',errands:'route',shopping:'shopping-bag',growth:'book-open',home:'house',wellbeing:'heart'};
     const STORAGE_KEY = 'plansurf-personal-todos-v1';
     const API_BASE = 'https://plansurf-service.onrender.com';
+    const APP_KEY = 'todo';
+    const appRoute = action => `/api/${APP_KEY}/${action}`;
     let token = '';
     const state = {
       tasks: loadTasks(), view: 'today', category: 'all', query: '', modal: null,
@@ -114,7 +116,7 @@
     }
     function modalMarkup() {
       const modal = state.modal;
-      if (modal.type === 'sync') return `<div class="overlay" data-action="outside"><section class="dialog" role="dialog" aria-modal="true" aria-labelledby="dialog-title"><div class="dialog-head"><h3 id="dialog-title">PlanSurf cloud sync</h3><button class="close" data-action="close" aria-label="Close"><i class="icon icon-x"></i></button></div><div class="sync-hint">Sign in with the password you already use for PlanSurf. Your personal tasks sync alongside existing data; the planner's task and leave records are left intact.</div>${!state.signedIn?`<div class="field login-field"><label for="sync-password">Password</label><input id="sync-password" type="password" autocomplete="current-password" placeholder="Your PlanSurf password"></div>`:''}<div class="message" id="sync-message">${escapeHTML(state.syncMessage)}</div><div class="dialog-actions"><button class="btn" data-action="close">Close</button>${state.signedIn?`<button class="btn" data-action="pull" ${state.syncing?'disabled':''}>Pull tasks</button><button class="btn primary" data-action="push" ${state.syncing?'disabled':''}>Save to cloud</button><button class="btn" data-action="logout">Sign out</button>`:`<button class="btn primary" data-action="login" ${state.syncing?'disabled':''}>${state.syncing?'Signing in...':'Sign in'}</button>`}</div></section></div>`;
+      if (modal.type === 'sync') return `<div class="overlay" data-action="outside"><section class="dialog" role="dialog" aria-modal="true" aria-labelledby="dialog-title"><div class="dialog-head"><h3 id="dialog-title">PlanSurf cloud sync</h3><button class="close" data-action="close" aria-label="Close"><i class="icon icon-x"></i></button></div><div class="sync-hint">Sign in with the password you already use for PlanSurf. Todo tasks use a separate cloud data file and do not change Daily Spark tasks or leave records.</div>${!state.signedIn?`<div class="field login-field"><label for="sync-password">Password</label><input id="sync-password" type="password" autocomplete="current-password" placeholder="Your PlanSurf password"></div>`:''}<div class="message" id="sync-message">${escapeHTML(state.syncMessage)}</div><div class="dialog-actions"><button class="btn" data-action="close">Close</button>${state.signedIn?`<button class="btn" data-action="pull" ${state.syncing?'disabled':''}>Pull tasks</button><button class="btn primary" data-action="push" ${state.syncing?'disabled':''}>Save to cloud</button><button class="btn" data-action="logout">Sign out</button>`:`<button class="btn primary" data-action="login" ${state.syncing?'disabled':''}>${state.syncing?'Signing in...':'Sign in'}</button>`}</div></section></div>`;
       const task = modal.task || {title:'',category:'family',dueDate:todayKey(),priority:'medium',notes:''};
       return `<div class="overlay" data-action="outside"><form class="dialog" id="task-form" role="dialog" aria-modal="true" aria-labelledby="dialog-title"><div class="dialog-head"><h3 id="dialog-title">${modal.task?'Edit task':'New personal task'}</h3><button type="button" class="close" data-action="close" aria-label="Close"><i class="icon icon-x"></i></button></div><div class="field"><label for="task-title">What needs doing?</label><input id="task-title" name="title" required maxlength="160" placeholder="e.g. Book the dentist appointment" value="${escapeHTML(task.title)}" autofocus></div><div class="form-grid"><div class="field"><label for="task-category">Category</label><select id="task-category" name="category">${Object.entries(CATEGORIES).map(([key,label])=>`<option value="${key}" ${task.category===key?'selected':''}>${label}</option>`).join('')}</select></div><div class="field"><label for="task-priority">Priority</label><select id="task-priority" name="priority"><option value="high" ${task.priority==='high'?'selected':''}>High</option><option value="medium" ${task.priority==='medium'?'selected':''}>Medium</option><option value="low" ${task.priority==='low'?'selected':''}>Low</option></select></div></div><div class="field"><label for="task-date">Due date</label><input id="task-date" name="dueDate" type="date" value="${escapeHTML(task.dueDate||'')}"></div><div class="field"><label for="task-notes">Notes</label><textarea id="task-notes" name="notes" placeholder="Details, list items, or a helpful reminder">${escapeHTML(task.notes||'')}</textarea></div><div class="dialog-actions"><button type="button" class="btn" data-action="close">Cancel</button><button class="btn primary" type="submit">${modal.task?'Save changes':'Add to my list'}</button></div></form></div>`;
     }
@@ -162,7 +164,7 @@
       const password=document.getElementById('sync-password')?.value;
       if(!password)return;
       state.syncing=true;state.syncMessage='Signing in...';render();
-      try{const result=await apiRequest('/api/dailyspark/login',{method:'POST',body:JSON.stringify({password})});if(!result.token)throw new Error('The service did not return a session token.');token=result.token;state.signedIn=true;state.syncMessage='Signed in. Your local tasks are ready to sync.';}
+      try{const result=await apiRequest(appRoute('login'),{method:'POST',body:JSON.stringify({password})});if(!result.token)throw new Error('The service did not return a session token.');token=result.token;state.signedIn=true;state.syncMessage='Signed in. Your local tasks are ready to sync.';}
       catch(error){state.syncMessage=`Sign in failed: ${error.message}`;}
       finally{state.syncing=false;render();}
     }
@@ -177,17 +179,17 @@
       });
       return merged;
     }
-    function validateDocument(data) {
-      return data&&typeof data==='object'&&!Array.isArray(data)&&data.version===5&&data.tasks&&typeof data.tasks==='object'&&!Array.isArray(data.tasks)&&Array.isArray(data.leaveRecords);
+    function validateTodoData(data) {
+      return data&&typeof data==='object'&&!Array.isArray(data)&&(Object.keys(data).length===0||Array.isArray(data.tasks));
     }
     async function pushTasks() {
       if(!token)return;
       state.syncing=true;state.syncMessage='Combining local and cloud tasks...';render();
       try{
-        const saved=await apiRequest('/api/dailyspark/data');
-        if(!validateDocument(saved))throw new Error('Saved planner data has an unexpected format. Nothing was changed.');
-        const merged=mergeTasks(saved.personalTodos,state.tasks,true);
-        await apiRequest('/api/dailyspark/data',{method:'PUT',body:JSON.stringify({...saved,personalTodos:merged,personalTodosUpdatedAt:new Date().toISOString()})});
+        const saved=await apiRequest(appRoute('data'));
+        if(!validateTodoData(saved))throw new Error('Saved todo data has an unexpected format. Nothing was changed.');
+        const merged=mergeTasks(saved.tasks,state.tasks,true);
+        await apiRequest(appRoute('data'),{method:'PUT',body:JSON.stringify({...saved,app:`plansurf-${APP_KEY}`,version:1,tasks:merged,updatedAt:new Date().toISOString()})});
         state.tasks=merged;try{localStorage.setItem(STORAGE_KEY,JSON.stringify(merged))}catch{}
         state.syncMessage='Personal tasks saved to PlanSurf cloud.';
       }catch(error){state.syncMessage=`Cloud save failed: ${error.message}`;if(/unauthorized|invalid or expired token|sign in/i.test(error.message)){token='';state.signedIn=false}}
@@ -198,16 +200,16 @@
       if(state.tasks.length&&!confirm('Merge cloud tasks into this browser? Matching task IDs will use the cloud version.'))return;
       state.syncing=true;state.syncMessage='Loading tasks from cloud...';render();
       try{
-        const saved=await apiRequest('/api/dailyspark/data');
-        if(!validateDocument(saved))throw new Error('Saved planner data has an unexpected format.');
-        state.tasks=mergeTasks(state.tasks,saved.personalTodos,true);
+        const saved=await apiRequest(appRoute('data'));
+        if(!validateTodoData(saved))throw new Error('Saved todo data has an unexpected format.');
+        state.tasks=mergeTasks(state.tasks,saved.tasks,true);
         try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state.tasks))}catch{}
         state.syncMessage='Cloud tasks merged into this browser.';
       }catch(error){state.syncMessage=`Cloud pull failed: ${error.message}`;if(/unauthorized|invalid or expired token|sign in/i.test(error.message)){token='';state.signedIn=false}}
       finally{state.syncing=false;render();}
     }
     async function logout() {
-      try{if(token)await apiRequest('/api/logout',{method:'POST'})}catch{}
+      try{if(token)await apiRequest(appRoute('logout'),{method:'POST'})}catch{}
       token='';state.signedIn=false;state.syncMessage='Signed out. Local tasks are still available.';render();
     }
     document.addEventListener('keydown',event=>{if(event.key==='Escape'&&state.modal){state.modal=null;render()}if((event.metaKey||event.ctrlKey)&&event.key==='Enter'&&state.modal?.type==='task')document.getElementById('task-form')?.requestSubmit()});

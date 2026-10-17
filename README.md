@@ -14,11 +14,21 @@ JSON backup of your personal tasks.
 ## Cloud sync
 
 Select **Cloud sync** and sign in with your existing PlanSurf password. The app
-uses the fixed PlanSurf cloud service and its existing Daily Spark login and
-data endpoints. It saves personal tasks in the `personalTodos` field of the
-shared data document, preserving existing Daily Spark task and leave fields.
-Cloud sync requires that the service accepts unknown fields on its version 5
-Daily Spark document.
+uses the PlanSurf service's separate `todo` app routes. The service maps that
+app key to `plansurf.todo-data.json` in the private data repository, so todo
+sync reads and writes its own file and does not modify Daily Spark data. If the
+file does not exist yet, the service returns an empty object; the first cloud
+save creates the todo document.
+
+If you create the file manually first, initialize it as:
+
+```json
+{
+	"app": "plansurf-todo",
+	"version": 1,
+	"tasks": []
+}
+```
 
 The service endpoint is fixed in the app and is not shown in the interface.
 Passwords are sent only to the service and are not saved in browser storage.
