@@ -26,9 +26,13 @@ If you create the file manually first, initialize it as:
 {
 	"app": "plansurf-todo",
 	"version": 1,
-	"tasks": []
+	"tasks": [],
+	"deletedTaskIds": []
 }
 ```
+
+Deleted task IDs are retained so a later cloud sync does not restore removed
+tasks.
 
 The service endpoint is fixed in the app and is not shown in the interface.
 Passwords are sent only to the service and are not saved in browser storage.

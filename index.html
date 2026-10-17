@@ -31,20 +31,26 @@
     };
     const CATEGORY_ICONS = {family:'users-round',errands:'route',shopping:'shopping-bag',growth:'book-open',home:'house',wellbeing:'heart'};
     const STORAGE_KEY = 'plansurf-personal-todos-v1';
+    const DELETED_KEY = 'plansurf-personal-todo-deletions-v1';
     const API_BASE = 'https://plansurf-service.onrender.com';
     const APP_KEY = 'todo';
     const appRoute = action => `/api/${APP_KEY}/${action}`;
     let token = '';
     const state = {
-      tasks: loadTasks(), view: 'today', category: 'all', query: '', modal: null,
+      tasks: loadTasks(), deletedTaskIds: loadDeletedTaskIds(), view: 'today', category: 'all', query: '', modal: null,
       syncing: false, syncMessage: 'Local changes are saved in this browser.', signedIn: false
     };
     function loadTasks() {
       try { const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY)); return Array.isArray(parsed) ? parsed : []; }
       catch { return []; }
     }
+    function loadDeletedTaskIds() {
+      try { const parsed = JSON.parse(localStorage.getItem(DELETED_KEY)); return new Set(Array.isArray(parsed) ? parsed.filter(id => typeof id === 'string') : []); }
+      catch { return new Set(); }
+    }
     function persist() {
       try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state.tasks)); } catch {}
+      try { localStorage.setItem(DELETED_KEY, JSON.stringify([...state.deletedTaskIds])); } catch {}
       render();
     }
     function todayKey() { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
@@ -130,7 +136,7 @@
         if (action==='new') { state.modal={type:'task'};render();document.getElementById('task-title')?.focus(); }
         if (action==='close') { state.modal=null;render(); }
         if (action==='toggle' && card) { const task=state.tasks.find(item=>item.id===card.dataset.task);task.completed=!task.completed;task.completedAt=task.completed?new Date().toISOString():null;persist(); }
-        if (action==='delete' && card) { const task=state.tasks.find(item=>item.id===card.dataset.task);if(confirm(`Delete “${task.title}”?`)){state.tasks=state.tasks.filter(item=>item.id!==task.id);persist();} }
+        if (action==='delete' && card) { const task=state.tasks.find(item=>item.id===card.dataset.task);if(confirm(`Delete “${task.title}”?`)){state.deletedTaskIds.add(task.id);state.tasks=state.tasks.filter(item=>item.id!==task.id);persist();} }
         if (action==='edit' && card) { state.modal={type:'task',task:state.tasks.find(item=>item.id===card.dataset.task)};render();document.getElementById('task-title')?.focus(); }
         if (action==='sync') { state.modal={type:'sync'};render(); }
         if (action==='backup') exportTasks();
@@ -181,7 +187,7 @@
       return merged;
     }
     function validateTodoData(data) {
-      return data&&typeof data==='object'&&!Array.isArray(data)&&(Object.keys(data).length===0||Array.isArray(data.tasks));
+      return data&&typeof data==='object'&&!Array.isArray(data)&&(Object.keys(data).length===0||Array.isArray(data.tasks))&&(!data.deletedTaskIds||Array.isArray(data.deletedTaskIds));
     }
     async function pushTasks() {
       if(!token)return;
@@ -189,10 +195,12 @@
       try{
         const saved=await apiRequest(appRoute('data'));
         if(!validateTodoData(saved))throw new Error('Saved todo data has an unexpected format. Nothing was changed.');
-        const merged=mergeTasks(saved.tasks,state.tasks,true);
-        await apiRequest(appRoute('data'),{method:'PUT',body:JSON.stringify({...saved,app:`plansurf-${APP_KEY}`,version:1,tasks:merged,updatedAt:new Date().toISOString()})});
-        state.tasks=merged;try{localStorage.setItem(STORAGE_KEY,JSON.stringify(merged))}catch{}
+        const deletedTaskIds=new Set([...state.deletedTaskIds,...(Array.isArray(saved.deletedTaskIds)?saved.deletedTaskIds.filter(id=>typeof id==='string'):[])]);
+        const merged=mergeTasks(saved.tasks,state.tasks,true).filter(task=>!deletedTaskIds.has(task.id));
+        await apiRequest(appRoute('data'),{method:'PUT',body:JSON.stringify({...saved,app:`plansurf-${APP_KEY}`,version:1,tasks:merged,deletedTaskIds:[...deletedTaskIds],updatedAt:new Date().toISOString()})});
+        state.tasks=merged;state.deletedTaskIds=deletedTaskIds;
         state.syncMessage='Personal tasks saved to PlanSurf cloud.';
+        persist();
       }catch(error){state.syncMessage=`Cloud save failed: ${error.message}`;if(/unauthorized|invalid or expired token|sign in/i.test(error.message)){token='';state.signedIn=false}}
       finally{state.syncing=false;render();}
     }
@@ -203,9 +211,10 @@
       try{
         const saved=await apiRequest(appRoute('data'));
         if(!validateTodoData(saved))throw new Error('Saved todo data has an unexpected format.');
-        state.tasks=mergeTasks(state.tasks,saved.tasks,true);
-        try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state.tasks))}catch{}
+        state.deletedTaskIds=new Set([...state.deletedTaskIds,...(Array.isArray(saved.deletedTaskIds)?saved.deletedTaskIds.filter(id=>typeof id==='string'):[])]);
+        state.tasks=mergeTasks(state.tasks,saved.tasks,true).filter(task=>!state.deletedTaskIds.has(task.id));
         state.syncMessage='Cloud tasks merged into this browser.';
+        persist();
       }catch(error){state.syncMessage=`Cloud pull failed: ${error.message}`;if(/unauthorized|invalid or expired token|sign in/i.test(error.message)){token='';state.signedIn=false}}
       finally{state.syncing=false;render();}
     }
