@@ -1,4 +1,4 @@
-# PlanSurf Personal Todos
+# PlanSurf Personal Reminders
 
 A friendly personal reminder list for family responsibilities, errands,
 shopping, home tasks, wellbeing, and skills you want to build. Reminders can
